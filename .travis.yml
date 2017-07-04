@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "6"
+
+script:
+  - npm test
+  - sh deploy.sh
+
+deploy:
+  provider: surge
+  project: ./public
+  domain: hugito.surge.sh
+  skip_cleanup: true
+  on: master
