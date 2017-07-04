@@ -1,0 +1,20 @@
+language: go
+go:
+ - 1.7.3
+
+before_install:
+  - go get github.com/modocache/gover
+  - go get github.com/mattn/goveralls
+  - go get github.com/tools/godep
+
+install:
+  - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace:$GOPATH"
+  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+  - godep restore
+
+script:
+ - go test -coverprofile=usecases.coverprofile ./usecases
+ - go test -coverprofile=interfaces.coverprofile ./interfaces
+ - go test -coverprofile=infrastructure.coverprofile ./infrastructure
+ - $HOME/gopath/bin/gover
+ - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -service travis-ci
